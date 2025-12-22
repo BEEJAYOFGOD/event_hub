@@ -1,10 +1,9 @@
+import { CustomTabBar } from "@/components/Customtab";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 import { Tabs } from "expo-router";
 import React from "react";
 
-import { useClientOnlyValue } from "@/components/useClientOnlyValue";
 import { useColorScheme } from "@/components/useColorScheme";
-import Colors from "@/constants/Colors";
 
 // You can explore the built-in icon families and icons on the web at https://icons.expo.fyi/
 function TabBarIcon(props: {
@@ -19,29 +18,41 @@ export default function TabLayout() {
 
     return (
         <Tabs
+            tabBar={(props) => <CustomTabBar {...props} />}
             screenOptions={{
-                tabBarActiveTintColor: Colors[colorScheme ?? "light"].tint,
-                // Disable the static render of the header on web
-                // to prevent a hydration error in React Navigation v6.
-                headerShown: useClientOnlyValue(false, true),
+                tabBarStyle: {
+                    backgroundColor: "#fff", // Set to white
+                },
             }}
         >
             <Tabs.Screen
-                name="index"
+                name="explore"
                 options={{
-                    title: "Tab One",
-                    tabBarIcon: ({ color }) => (
-                        <TabBarIcon name="code" color={color} />
-                    ),
+                    headerShown: false,
                 }}
             />
             <Tabs.Screen
-                name="two"
+                name="events"
                 options={{
-                    title: "Tab Two",
-                    tabBarIcon: ({ color }) => (
-                        <TabBarIcon name="code" color={color} />
-                    ),
+                    headerShown: false,
+                }}
+            />
+            <Tabs.Screen
+                name="create"
+                options={{
+                    headerShown: false,
+                }}
+            />
+            <Tabs.Screen
+                name="map"
+                options={{
+                    headerShown: false,
+                }}
+            />
+            <Tabs.Screen
+                name="profile"
+                options={{
+                    headerShown: false,
                 }}
             />
         </Tabs>

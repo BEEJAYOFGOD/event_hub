@@ -4,7 +4,12 @@
  */
 
 import Colors from "@/constants/Colors";
-import { Text as DefaultText, View as DefaultView } from "react-native";
+import {
+    Text as DefaultText,
+    View as DefaultView,
+    KeyboardAvoidingView,
+    Platform,
+} from "react-native";
 
 type ThemeProps = {
     lightColor?: string;
@@ -13,6 +18,36 @@ type ThemeProps = {
 
 export type TextProps = ThemeProps & DefaultText["props"];
 export type ViewProps = ThemeProps & DefaultView["props"];
+
+interface ThemedKeyboardAvoidingViewProps extends ViewProps {
+    lightColor?: string;
+    darkColor?: string;
+    keyboardVerticalOffset?: number;
+}
+
+export function KeyboardView(props: ThemedKeyboardAvoidingViewProps) {
+    const {
+        style,
+        lightColor,
+        darkColor,
+        keyboardVerticalOffset = 0,
+        ...otherProps
+    } = props;
+
+    const backgroundColor = useThemeColor(
+        { light: lightColor, dark: darkColor },
+        "background"
+    );
+
+    return (
+        <KeyboardAvoidingView
+            style={[{ backgroundColor }, style]}
+            behavior={Platform.OS === "ios" ? "padding" : "height"}
+            keyboardVerticalOffset={keyboardVerticalOffset}
+            {...otherProps}
+        />
+    );
+}
 
 export function useThemeColor(
     props: { light?: string; dark?: string },
@@ -29,11 +64,30 @@ export function useThemeColor(
     }
 }
 
-export function Text(props: TextProps) {
+type FontWeight = "book" | "medium" | "bold";
+
+interface CustomTextProps extends TextProps {
+    weight?: FontWeight;
+    lightColor?: string;
+    darkColor?: string;
+}
+
+export function Text({ weight = "book", ...props }: CustomTextProps) {
+    const fontFamilies: Record<FontWeight, string> = {
+        book: "AirbnbCereal-Book",
+        medium: "AirbnbCereal-Medium",
+        bold: "AirbnbCereal-Bold",
+    };
+
     const { style, lightColor, darkColor, ...otherProps } = props;
     const color = useThemeColor({ light: lightColor, dark: darkColor }, "text");
 
-    return <DefaultText style={[{ color }, style]} {...otherProps} />;
+    return (
+        <DefaultText
+            style={[{ color, fontFamily: fontFamilies[weight] }, style]}
+            {...otherProps}
+        />
+    );
 }
 
 export function View(props: ViewProps) {
@@ -45,3 +99,4 @@ export function View(props: ViewProps) {
 
     return <DefaultView style={[{ backgroundColor }, style]} {...otherProps} />;
 }
+

@@ -1,6 +1,6 @@
 import ellipsepng from "@/assets/images/auth/ellipsegrad.png";
-import Logo from "@/assets/images/event_logo.png";
 import { KeyboardView, Text, View } from "@/components/Themed";
+import BackBtn from "@/components/ui/backBtn";
 import Button from "@/components/ui/button";
 import Input from "@/components/ui/input";
 import { useAppRouter } from "@/config/route";
@@ -8,18 +8,25 @@ import { Image, StyleSheet, TouchableOpacity } from "react-native";
 
 export default function TabTwoScreen() {
     const router = useAppRouter();
+
     return (
         <KeyboardView style={styles.container}>
             <View style={styles.authGrad}>
                 <Image style={styles.gradImg} source={ellipsepng} />
             </View>
-            <Image source={Logo} style={styles.logo} />
+
+            <BackBtn style={{ marginBottom: 40 }} />
 
             <Text weight="medium" style={styles.signin}>
-                Sign in
+                Sign up
             </Text>
 
             <View style={styles.inputsContainer}>
+                <Input
+                    onChangeText={(e) => console.log(e)}
+                    type="name"
+                    placeholder="Full name"
+                />
                 <Input
                     onChangeText={(e) => console.log(e)}
                     type="email"
@@ -30,15 +37,22 @@ export default function TabTwoScreen() {
                     type="password"
                     placeholder="example@email.com"
                 />
+                <Input
+                    onChangeText={(e) => console.log(e)}
+                    type="password"
+                    placeholder="example@email.com"
+                />
             </View>
 
-            <Button onPress={() => router.toHome()} content="Sign in" />
+            <Button content="Sign in" />
 
             <View style={{ backgroundColor: "transparent", marginTop: 24 }}>
                 <Text style={{ opacity: 0.5 }}>OR</Text>
             </View>
 
-            <View style={styles.socialBtn}>
+            <View
+                style={[styles.socialBtn, { backgroundColor: "transparent" }]}
+            >
                 <Button content="Log in with Google" variant="G" />
                 <Button content="Sign in with Facebook" variant="F" />
             </View>
@@ -51,10 +65,9 @@ export default function TabTwoScreen() {
                     flexDirection: "row",
                 }}
             >
-                <Text>Don't have an account?</Text>
-
+                <Text>Already have an account?</Text>
                 <TouchableOpacity onPress={() => router.toSignUp()}>
-                    <Text style={{ color: "#5669FF" }}>Sign up</Text>
+                    <Text style={{ color: "#5669FF" }}>Sign in</Text>
                 </TouchableOpacity>
             </View>
         </KeyboardView>
@@ -96,12 +109,11 @@ const styles = StyleSheet.create({
         marginTop: 24,
         width: "100%",
         rowGap: 20,
-        backgroundColor: "transparent",
     },
     authGrad: {
         position: "absolute",
-        bottom: 0, // Adjust positioning
-        right: 0, // Adjust positioning
+        bottom: 0,
+        right: 0,
     },
     gradImg: {
         // width: "100%",

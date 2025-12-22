@@ -5,14 +5,14 @@ export const ROUTES = {
     // ============================================
     // Onboarding Routes
     // ============================================
-    ONBOARDING: "/auth)/Onboarding",
+    ONBOARDING: "/(auth)/onboarding",
 
     // ============================================
     // Authentication Routes
     // ============================================
-    AUTHENTICATION: "/(auth)",
+    AUTHENTICATION: "/(auth)/",
     SIGN_UP: "/(auth)/screens/Signup",
-    SIGN_IN: "/(auth)/screens/SignIn",
+    SIGN_IN: "/(auth)/",
     FORGOT_PASSWORD: "/(auth)/screens/ForgotPassword",
     EMAIL_VERIFICATION: "/(auth)/screens/EmailVerification",
     PASSWORD_SUCCESS: "/(auth)/screens/PasswordSuccess",
@@ -21,7 +21,7 @@ export const ROUTES = {
     // ============================================
     // Main App Routes
     // ============================================
-    HOME: "/(manifestationMainHome)/(tabs)/home",
+    HOME: "/(tabs)/explore",
     GALLERY_HOME: "/(manifestationMainHome)/(tabs)/gallery",
     SHARED: "/(manifestationMainHome)/(tabs)/shared",
     PROFILE: "/(manifestationMainHome)/(tabs)/profile",

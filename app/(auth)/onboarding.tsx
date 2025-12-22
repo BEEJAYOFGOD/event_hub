@@ -1,48 +1,96 @@
+import onboard2 from "@/assets/images/auth/onboard2.png";
+import onboard3 from "@/assets/images/auth/onboard3.png";
 import onboard1 from "@/assets/images/auth/onboarding.png";
-import { Text, View } from "@/components/Themed";
-import { useRef, useState } from "react";
+import { OnboardingContent } from "@/components/onboard/OnboardComponent";
+import { View } from "@/components/Themed";
+import { useAppRouter } from "@/config/route";
+import { useCallback, useMemo, useRef, useState } from "react";
 import {
     Dimensions,
     FlatList,
     Image,
+    ImageSourcePropType,
     StyleSheet,
-    TouchableOpacity,
     ViewToken,
 } from "react-native";
 
+interface OnboardingSlide {
+    id: string;
+    image: ImageSourcePropType;
+    title1: string;
+    title: string;
+}
+
+const onboardingData: OnboardingSlide[] = [
+    {
+        id: "1",
+        image: onboard1,
+        title1: "Explore Upcoming and Nearby Events",
+        title: "Find amazing experiences happening around you",
+    },
+    {
+        id: "2",
+        image: onboard2,
+        title1: "We Have Modern Events Calendar Feature",
+        title: "Never miss out with smart reminders and easy planning",
+    },
+    {
+        id: "3",
+        image: onboard3,
+        title1: "Look Up More Events or Activities Nearby By Map",
+        title: "See what's happening around you at a glance",
+    },
+];
+
 const screenWidth = Dimensions.get("window").width;
+
 export default function TabTwoScreen() {
-    const scrollRef = useRef(null);
-    const [scrollIndex, setScrollIndex] = useState(0);
+    const flatListRef = useRef<FlatList<any>>(null);
     const [currentIndex, setCurrentIndex] = useState(0);
+    const router = useAppRouter();
 
-    const slides = [onboard1, onboard1, onboard1];
-
-    const onViewableItemsChanged = useRef(
+    const onViewableItemsChanged = useCallback(
         ({ viewableItems }: { viewableItems: ViewToken[] }) => {
             if (viewableItems.length > 0) {
-                setCurrentIndex(() => {
-                    console.log(viewableItems);
-                    console.log("viewindex", viewableItems[0].index);
-                    return viewableItems[0].index ?? 0;
-                });
+                console.log(viewableItems);
+                setCurrentIndex(viewableItems[0].index ?? 0);
             }
-        }
-    ).current;
+        },
+        [] // Empty dependency array - function never changes
+    );
 
-    const viewabilityConfig = useRef({
-        itemVisiblePercentThreshold: 50,
-    }).current;
+    const viewabilityConfig = useMemo(
+        () => ({
+            itemVisiblePercentThreshold: 50,
+        }),
+        []
+    );
+
+    const handleSkip = () => {
+        router.toSignIn();
+    };
+
+    const handleNext = () => {
+        if (currentIndex < onboardingData.length - 1) {
+            flatListRef.current?.scrollToIndex({
+                index: currentIndex + 1,
+                animated: true,
+            });
+        } else {
+            console.log("Get started");
+            router.toSignIn();
+        }
+    };
 
     return (
         <View style={styles.container}>
             <FlatList
-                data={slides}
-                ref={scrollRef}
+                data={onboardingData}
+                ref={flatListRef}
                 pagingEnabled
                 horizontal
-                renderItem={({ item }) => (
-                    <Image style={styles.onboardImage} source={item} />
+                renderItem={({ item }: { item: OnboardingSlide }) => (
+                    <Image style={styles.onboardImage} source={item.image} />
                 )}
                 keyExtractor={(item, index) => index.toString()}
                 style={styles.imageContainer}
@@ -51,40 +99,14 @@ export default function TabTwoScreen() {
                 viewabilityConfig={viewabilityConfig}
             />
 
-            <View
-                style={styles.onboardingBottomView}
-                lightColor="#eee"
-                darkColor="rgba(255,255,255,0.1)"
-            >
-                <Text
-                    lightColor="#eee"
-                    darkColor="rgba(255,255,255,0.1)"
-                    style={styles.title1}
-                >
-                    Explore Upcoming and Neary Events
-                </Text>
-                <Text
-                    lightColor="#eee"
-                    darkColor="rgba(255,255,255,0.1)"
-                    style={styles.title}
-                >
-                    in publishing and graphic design, Lorem is a placeholdertext
-                    commonly
-                </Text>
-                <View style={styles.onboardFooter}>
-                    <TouchableOpacity>
-                        <Text>Skip {scrollIndex} </Text>
-                    </TouchableOpacity>
-                    <View style={styles.dots}>
-                        {[1, 2, 3].map((item) => (
-                            <View key={item} style={styles.dot} />
-                        ))}
-                    </View>
-                    <TouchableOpacity>
-                        <Text>Next</Text>
-                    </TouchableOpacity>
-                </View>
-            </View>
+            <OnboardingContent
+                title1={onboardingData[currentIndex].title1}
+                title={onboardingData[currentIndex].title}
+                currentIndex={currentIndex}
+                totalSlides={onboardingData.length}
+                onSkip={handleSkip}
+                onNext={handleNext}
+            />
         </View>
     );
 }
@@ -122,8 +144,8 @@ const styles = StyleSheet.create({
         width: 200,
     },
     title: {
-        fontSize: 18,
-        fontWeight: "bold",
+        fontSize: 16,
+        fontWeight: "ultralight",
         marginBottom: 12,
         textAlign: "center",
     },

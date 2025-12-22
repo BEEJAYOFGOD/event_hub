@@ -28,6 +28,9 @@ SplashScreen.preventAutoHideAsync();
 export default function RootLayout() {
     const [loaded, error] = useFonts({
         SpaceMono: require("../assets/fonts/SpaceMono-Regular.ttf"),
+        "AirbnbCereal-Book": require("../assets/fonts/AirbnbCereal_W_Bk.otf"),
+        "AirbnbCereal-Medium": require("../assets/fonts/AirbnbCereal_W_Md.otf"),
+        "AirbnbCereal-Bold": require("../assets/fonts/AirbnbCereal_W_Bd.otf"),
         ...FontAwesome.font,
     });
 
