@@ -1,4 +1,9 @@
-import { Image, Pressable, ScrollView, StyleSheet, Text } from "react-native";
+import art from "@/assets/icons/art_icon.png";
+import food from "@/assets/icons/food_icon.png";
+import music from "@/assets/icons/music-icon.png";
+import sports from "@/assets/icons/sport_icon.png";
+import { Image, Pressable, ScrollView, StyleSheet } from "react-native";
+import { Text } from "./Themed";
 
 interface FilterOption {
     icon: any;
@@ -7,13 +12,34 @@ interface FilterOption {
 }
 
 interface CategoryFilterProps {
-    filters: FilterOption[];
     selectedFilter?: string | null;
     onFilterSelect?: (filter: string) => void;
 }
 
+const filters = [
+    {
+        icon: sports,
+        option: "Sport",
+        color: "#F0635A",
+    },
+    {
+        icon: art,
+        option: "Art",
+        color: "#F59762",
+    },
+    {
+        icon: food,
+        option: "Food",
+        color: "#29D697",
+    },
+    {
+        icon: music,
+        option: "Music",
+        color: "#46CDFB",
+    },
+];
+
 export default function CategoryFilter({
-    filters,
     selectedFilter,
     onFilterSelect,
 }: CategoryFilterProps) {
@@ -55,7 +81,7 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         borderRadius: 40,
         paddingHorizontal: 20,
-        paddingVertical: 12,
+        paddingVertical: 20,
         gap: 12,
         alignItems: "center",
     },
@@ -78,7 +104,8 @@ const styles = StyleSheet.create({
     },
     filterText: {
         color: "#FFFFFF",
-        fontFamily: "AirbnbCereal-Book",
-        fontSize: 12,
+        fontSize: 16,
+        lineHeight: 22,
+        height: 22, // Match lineHeight, not minHeight
     },
 });
