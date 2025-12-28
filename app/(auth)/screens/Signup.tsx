@@ -44,7 +44,9 @@ export default function TabTwoScreen() {
                 />
             </View>
 
-            <Button content="Sign in" />
+            <Button style={{ paddingVertical: 20 }}>
+                <Text lightColor="white">Sign Up</Text>
+            </Button>
 
             <View style={{ backgroundColor: "transparent", marginTop: 24 }}>
                 <Text style={{ opacity: 0.5 }}>OR</Text>
@@ -66,7 +68,7 @@ export default function TabTwoScreen() {
                 }}
             >
                 <Text>Already have an account?</Text>
-                <TouchableOpacity onPress={() => router.toSignUp()}>
+                <TouchableOpacity onPress={() => router.toSignIn()}>
                     <Text style={{ color: "#5669FF" }}>Sign in</Text>
                 </TouchableOpacity>
             </View>

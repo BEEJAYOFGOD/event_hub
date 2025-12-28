@@ -2,31 +2,70 @@ import googlePng from "@/assets/images/auth/Google.png";
 import facebookPng from "@/assets/images/auth/facebook.png";
 import btnArrow from "@/assets/images/buttonArrow.png";
 
+import { ReactNode } from "react";
 import { Image, StyleSheet, TouchableOpacity } from "react-native";
 import { Text } from "../Themed";
 
 interface ButtonProps {
     content?: string;
+    children?: ReactNode;
     variant?: "primary" | "secondary" | "G" | "F";
     disabled?: boolean;
     style?: object;
     onPress?: () => void;
     arrow?: boolean;
+    width?: string | number;
 }
 
 const Button = ({
     content,
+    children,
     variant = "primary",
     disabled,
     style,
     onPress,
-    arrow,
+    arrow = false,
+    width = "100%",
 }: ButtonProps) => {
+    const getImageSource = () => {
+        if (variant === "primary" && arrow) return btnArrow;
+        if (variant === "G") return googlePng;
+        if (variant === "F") return facebookPng;
+        return null;
+    };
+
+    const imageSource = getImageSource();
+
+    // Render content or children
+    const renderContent = () => {
+        if (children) {
+            return children;
+        }
+
+        if (content) {
+            return (
+                <Text
+                    style={[
+                        buttonStyles.text,
+                        variant === "primary"
+                            ? buttonStyles.primaryText
+                            : buttonStyles.secondaryText,
+                    ]}
+                >
+                    {content}
+                </Text>
+            );
+        }
+
+        return null;
+    };
+
     return (
         <TouchableOpacity
             onPress={onPress}
             style={[
                 buttonStyles.button,
+                { width: width },
                 variant === "primary"
                     ? buttonStyles.primary
                     : buttonStyles.secondary,
@@ -34,33 +73,18 @@ const Button = ({
                 style,
             ]}
         >
-            <Text
-                style={[
-                    buttonStyles.text,
-                    variant === "primary"
-                        ? buttonStyles.primaryText
-                        : buttonStyles.secondaryText,
-                ]}
-            >
-                {content}
-            </Text>
+            {renderContent()}
 
-            {
+            {imageSource && (
                 <Image
                     style={
-                        variant == "primary"
+                        variant === "primary"
                             ? buttonStyles.Image
                             : buttonStyles.social
                     }
-                    source={
-                        variant == "primary"
-                            ? btnArrow
-                            : variant == "G"
-                            ? googlePng
-                            : facebookPng
-                    }
+                    source={imageSource}
                 />
-            }
+            )}
         </TouchableOpacity>
     );
 };
@@ -76,7 +100,6 @@ const buttonStyles = StyleSheet.create({
         borderRadius: 16,
         alignItems: "center",
         elevation: 5,
-        width: "100%",
         color: "white",
         flexDirection: "row",
         justifyContent: "center",
@@ -101,7 +124,6 @@ const buttonStyles = StyleSheet.create({
         fontWeight: "500",
         letterSpacing: -1,
     },
-
     primaryText: {
         color: "#fff",
         position: "absolute",

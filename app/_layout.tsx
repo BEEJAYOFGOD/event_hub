@@ -11,6 +11,9 @@ import { useEffect } from "react";
 import "react-native-reanimated";
 
 import { useColorScheme } from "@/components/useColorScheme";
+import * as NavigationBar from "expo-navigation-bar";
+import { Platform } from "react-native";
+import { SafeAreaProvider } from "react-native-safe-area-context";
 
 export {
     // Catch any errors thrown by the Layout component.
@@ -40,6 +43,13 @@ export default function RootLayout() {
     }, [error]);
 
     useEffect(() => {
+        if (Platform.OS === "android") {
+            // Set the navigation bar style
+            NavigationBar.setStyle("dark");
+        }
+    }, []);
+
+    useEffect(() => {
         if (loaded) {
             SplashScreen.hideAsync();
         }
@@ -59,13 +69,18 @@ function RootLayoutNav() {
         <ThemeProvider
             value={colorScheme === "dark" ? DarkTheme : DefaultTheme}
         >
-            <Stack>
-                <Stack.Screen name="(auth)" options={{ headerShown: false }} />
-                <Stack.Screen
-                    name="(drawer)"
-                    options={{ headerShown: false }}
-                />
-            </Stack>
+            <SafeAreaProvider>
+                <Stack screenOptions={{ headerShown: false }}>
+                    <Stack.Screen
+                        name="(auth)"
+                        options={{ headerShown: false }}
+                    />
+                    <Stack.Screen
+                        name="(drawer)"
+                        options={{ headerShown: false }}
+                    />
+                </Stack>
+            </SafeAreaProvider>
         </ThemeProvider>
     );
 }

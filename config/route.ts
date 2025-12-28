@@ -85,11 +85,16 @@ export const useAppRouter = () => {
         toShared: () => navigate(ROUTES.SHARED),
         toCreate: () => navigate(ROUTES.CREATE),
 
-        toGalleryPreview: (params?: {
+        toEventPreview: (params?: {
             id?: string;
-            imageUrl?: string;
+            image?: string;
             title?: string;
-        }) => navigate(ROUTES.GALLERY_PREVIEW, params),
+            location?: string;
+            date: string;
+            attendees?: number;
+        }) => {
+            navigate(ROUTES.EVENTS_PREVIEW, params || {});
+        },
 
         // ============================================
         // Paywall Navigation

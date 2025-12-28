@@ -9,6 +9,7 @@ import {
     View as DefaultView,
     KeyboardAvoidingView,
     Platform,
+    useColorScheme,
 } from "react-native";
 
 type ThemeProps = {
@@ -53,8 +54,8 @@ export function useThemeColor(
     props: { light?: string; dark?: string },
     colorName: keyof typeof Colors.light & keyof typeof Colors.dark
 ) {
-    // const theme = useColorScheme() ?? "light";
-    const theme = "light";
+    const theme = useColorScheme() ?? "light";
+    // const theme = "light";
     const colorFromProps = props[theme];
 
     if (colorFromProps) {

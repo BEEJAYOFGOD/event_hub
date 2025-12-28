@@ -32,7 +32,12 @@ export default function TabTwoScreen() {
                 />
             </View>
 
-            <Button onPress={() => router.toHome()} content="Sign in" />
+            <Button
+                onPress={() => router.toHome()}
+                style={{ paddingVertical: 20 }}
+            >
+                <Text lightColor="white">Sign In</Text>
+            </Button>
 
             <View style={{ backgroundColor: "transparent", marginTop: 24 }}>
                 <Text style={{ opacity: 0.5 }}>OR</Text>

@@ -2,9 +2,16 @@ import map_pin from "@/assets/icons/map-pin.png";
 import oval_1 from "@/assets/images/oval_1.png";
 import oval_2 from "@/assets/images/oval_2.png";
 import oval_3 from "@/assets/images/oval_3.png";
+import { useAppRouter } from "@/config/route";
 import { useState } from "react";
-import { Image, ImageSourcePropType, StyleSheet } from "react-native";
+import {
+    Image,
+    ImageSourcePropType,
+    Pressable,
+    StyleSheet,
+} from "react-native";
 import BookmarkIcon from "./BookmarkIcon";
+import StackAvatar from "./StackAvatar";
 import { Text, View } from "./Themed";
 
 interface EventCardProps {
@@ -15,7 +22,7 @@ interface EventCardProps {
     attendees: number;
 }
 
-const avatars: ImageSourcePropType[] = [oval_1, oval_2, oval_3];
+export const avatars: ImageSourcePropType[] = [oval_1, oval_2, oval_3];
 
 const EventCard = ({
     image,
@@ -23,14 +30,32 @@ const EventCard = ({
     location,
     date,
     attendees,
-}: EventCardProps) => {
+}: // onPress,
+EventCardProps) => {
     const [isBookmarked, setIsBookmarked] = useState(false);
+    const router = useAppRouter();
 
     const handleBookmark = () => {
         setIsBookmarked(!isBookmarked);
     };
+
+    const onPress = () => {
+        // Type guard to check if image has a uri property
+        const imageUri = (image as { uri: string })?.uri;
+
+        console.log(date);
+
+        router.toEventPreview({
+            image: imageUri,
+            title,
+            location,
+            attendees,
+            date,
+        });
+    };
+
     return (
-        <View style={styles.card}>
+        <Pressable onPress={onPress} style={styles.card}>
             {/* Event Image */}
             <View style={styles.imageContainer}>
                 <Image style={styles.eventImage} source={image} />
@@ -59,25 +84,7 @@ const EventCard = ({
 
                 {/* Attendees */}
                 <View style={styles.attendeesRow}>
-                    <View style={styles.avatarGroup}>
-                        {avatars.map((avatar, index) => (
-                            <Image
-                                style={[
-                                    styles.avatarImage,
-                                    index >= 1 ? { marginLeft: -10 } : null,
-
-                                    index < avatars.length
-                                        ? {
-                                              zIndex:
-                                                  0 + avatars.length - index,
-                                          }
-                                        : null,
-                                ]}
-                                key={index}
-                                source={avatar}
-                            />
-                        ))}
-                    </View>
+                    <StackAvatar avatars={avatars} />
                     <Text style={styles.attendeesText}>+{attendees} Going</Text>
                 </View>
 
@@ -89,7 +96,7 @@ const EventCard = ({
                     </Text>
                 </View>
             </View>
-        </View>
+        </Pressable>
     );
 };
 
