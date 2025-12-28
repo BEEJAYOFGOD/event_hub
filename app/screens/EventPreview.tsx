@@ -1,3 +1,4 @@
+import organizer_image from "@/assets/images/organizer.png";
 import BookmarkIcon from "@/components/BookmarkIcon";
 import { avatars } from "@/components/EventCard";
 import StackAvatar from "@/components/StackAvatar";
@@ -7,9 +8,10 @@ import Button from "@/components/ui/button";
 import { shadow } from "@/helper/shadow";
 import { Ionicons } from "@expo/vector-icons";
 import { BlurView } from "expo-blur";
+import { LinearGradient } from "expo-linear-gradient";
 import { useLocalSearchParams } from "expo-router";
-import { useState } from "react";
-import { Image, StatusBar, StyleSheet } from "react-native";
+import React, { useState } from "react";
+import { Image, ScrollView, StatusBar, StyleSheet } from "react-native";
 
 const EventPreview = () => {
     const { image, title, attendees, date, location } = useLocalSearchParams();
@@ -32,10 +34,13 @@ const EventPreview = () => {
                 translucent
                 backgroundColor="transparent"
             />
-            <Image
-                source={{ uri: image as string }}
-                style={{ height: 320, width: "100%" }}
-            />
+            <View style={{ backgroundColor: "transparent" }}>
+                <Image
+                    source={{ uri: image as string }}
+                    style={{ height: 320, width: "100%" }}
+                />
+            </View>
+
             <View style={styles.PreviewHeader}>
                 <View
                     style={{
@@ -95,7 +100,10 @@ const EventPreview = () => {
                 </Button>
             </View>
 
-            <View style={styles.middleView}>
+            <ScrollView
+                style={styles.middleView}
+                contentContainerStyle={{ paddingBottom: 120 }}
+            >
                 <Text style={styles.eventTitle}>{title}</Text>
 
                 <View
@@ -139,7 +147,99 @@ const EventPreview = () => {
                         <Text lightColor="gray">{location}</Text>
                     </View>
                 </View>
-            </View>
+
+                <View
+                    style={{
+                        flexDirection: "row",
+                        alignItems: "center",
+                        gap: 8,
+                        marginTop: 20,
+                        justifyContent: "space-between",
+                    }}
+                >
+                    <View
+                        style={{
+                            flexDirection: "row",
+                            gap: 8,
+                            alignItems: "center",
+                        }}
+                    >
+                        <Image
+                            style={{
+                                width: 70,
+                                height: 70,
+                                borderRadius: 12,
+                            }}
+                            source={organizer_image}
+                        />
+
+                        <View>
+                            <Text weight="medium" style={{ fontSize: 20 }}>
+                                Ashfak Sayem
+                            </Text>
+                            <Text lightColor="gray">Organizer</Text>
+                        </View>
+                    </View>
+
+                    <Button
+                        width={"fit"}
+                        style={{
+                            backgroundColor: "#5669FF1a",
+                            paddingHorizontal: 16,
+                            paddingVertical: 12,
+                            borderRadius: 8,
+                            ...shadow(0),
+                        }}
+                    >
+                        <Text lightColor="#5669FF" weight="medium">
+                            Follow
+                        </Text>
+                    </Button>
+                </View>
+
+                <View style={{ marginTop: 24 }}>
+                    <Text
+                        weight="medium"
+                        style={{ fontSize: 25, marginBottom: 12 }}
+                    >
+                        About Event
+                    </Text>
+
+                    <Text>
+                        Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                        Eveniet debitis aspernatur consequatur deleniti dolores
+                        repellendus, sequi velit nam ipsa veniam pariatur atque
+                        totam voluptas nulla at inventore perferendis sit
+                        voluptatum? Lorem ipsum dolor sit, amet consectetur
+                        adipisicing elit. Quos vitae adipisci atque illo
+                        officiis neque incidunt laudantium quasi ipsam, fugiat
+                        animi est consequatur accusantium dolore quis quibusdam
+                        et cupiditate id. Lorem ipsum dolor sit amet consectetur
+                        adipisicing elit. Eveniet debitis aspernatur consequatur
+                        deleniti dolores repellendus, sequi velit nam ipsa
+                        veniam pariatur atque totam voluptas nulla at inventore
+                        perferendis sit voluptatum? Lorem ipsum dolor sit, amet
+                        consectetur adipisicing elit. Quos vitae adipisci atque
+                        illo officiis neque incidunt laudantium quasi ipsam,
+                        fugiat animi est consequatur accusantium dolore quis
+                        quibusdam et cupiditate id.
+                    </Text>
+                </View>
+            </ScrollView>
+
+            <LinearGradient
+                colors={["transparent", "rgba(255, 255, 255, 0.5)", "#ffffff"]}
+                locations={[0, 0.3, 1]}
+                style={styles.gradient}
+            >
+                <Button
+                    width={"90%"}
+                    variant="primary"
+                    onPress={() => console.log("Pressed")}
+                    arrow
+                    content="Buy Tickt $120"
+                />
+            </LinearGradient>
         </View>
     );
 };
@@ -189,11 +289,23 @@ const styles = StyleSheet.create({
     },
     middleView: {
         marginTop: 20,
-        paddingHorizontal: 12,
+        paddingHorizontal: 24,
+        flex: 1,
     },
     eventIconContiner: {
         backgroundColor: "#5669FF1a",
         padding: 12,
         borderRadius: 12,
+    },
+    gradient: {
+        position: "absolute", // Fixed at bottom
+        bottom: 0,
+        left: 0,
+        right: 0,
+        paddingVertical: 20,
+        paddingHorizontal: 20,
+        alignItems: "center",
+        justifyContent: "flex-end",
+        height: 120, // Fixed height instead of flex: 1
     },
 });
