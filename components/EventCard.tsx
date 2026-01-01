@@ -3,6 +3,7 @@ import oval_1 from "@/assets/images/oval_1.png";
 import oval_2 from "@/assets/images/oval_2.png";
 import oval_3 from "@/assets/images/oval_3.png";
 import { useAppRouter } from "@/config/route";
+import { Event } from "@/types/Events";
 import { useState } from "react";
 import {
     Image,
@@ -14,13 +15,11 @@ import BookmarkIcon from "./BookmarkIcon";
 import StackAvatar from "./StackAvatar";
 import { Text, View } from "./Themed";
 
-interface EventCardProps {
-    image: ImageSourcePropType;
-    title: string;
-    location: string;
-    date: string;
-    attendees: number;
-}
+export interface EventCardProps
+    extends Pick<
+        Event,
+        "image" | "title" | "location" | "date" | "attendees"
+    > {}
 
 export const avatars: ImageSourcePropType[] = [oval_1, oval_2, oval_3];
 

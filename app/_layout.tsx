@@ -12,6 +12,7 @@ import "react-native-reanimated";
 
 import { useColorScheme } from "@/components/useColorScheme";
 import * as NavigationBar from "expo-navigation-bar";
+import { StatusBar } from "expo-status-bar";
 import { Platform } from "react-native";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 
@@ -70,6 +71,11 @@ function RootLayoutNav() {
             value={colorScheme === "dark" ? DarkTheme : DefaultTheme}
         >
             <SafeAreaProvider>
+                <StatusBar
+                    style="light"
+                    backgroundColor="transparent"
+                    translucent
+                />
                 <Stack screenOptions={{ headerShown: false }}>
                     <Stack.Screen
                         name="(auth)"

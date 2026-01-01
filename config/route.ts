@@ -83,7 +83,8 @@ export const useAppRouter = () => {
         toGalleryHome: () => navigate(ROUTES.GALLERY_HOME),
         toFavourites: () => navigate(ROUTES.FAVOURITES),
         toShared: () => navigate(ROUTES.SHARED),
-        toCreate: () => navigate(ROUTES.CREATE),
+
+        toEvents: () => navigate(ROUTES.ALL_EVENTS),
 
         toEventPreview: (params?: {
             id?: string;

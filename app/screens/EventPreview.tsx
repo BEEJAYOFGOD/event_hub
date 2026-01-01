@@ -50,7 +50,7 @@ const EventPreview = () => {
                         gap: 12,
                     }}
                 >
-                    <BackBtn />
+                    <BackBtn light />
                     <Text style={styles.PreviewText}>Event Details</Text>
                 </View>
 

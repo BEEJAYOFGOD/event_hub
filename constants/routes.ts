@@ -30,7 +30,7 @@ export const ROUTES = {
     // SCREENS
     // ============================================
     FAVOURITES: "/(manifestationMainHome)/screens/Favourites",
-    CREATE: "/(manifestationMainHome)/screens/CreateManifestation",
+    ALL_EVENTS: "/screens/AllEvents",
     EVENTS_PREVIEW: "/screens/EventPreview",
 
     // ============================================

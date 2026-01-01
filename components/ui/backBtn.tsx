@@ -2,13 +2,22 @@ import backBtn_lighht from "@/assets/icons/backBtn-light.png";
 import backBtn from "@/assets/images/arrow-left.png";
 import { useAppRouter } from "@/config/route";
 import { useTheme } from "@/hooks/useTheme";
+import { useEffect, useState } from "react";
 import { Image, StyleSheet, TouchableOpacity } from "react-native";
 
-const BackBtn = ({ style }: { style?: object }) => {
+const BackBtn = ({ style, light }: { style?: object; light?: boolean }) => {
     const router = useAppRouter();
     const theme = useTheme();
 
-    const isDark = theme === "dark";
+    const [isDark, setIsDark] = useState(theme === "dark");
+
+    console.log(isDark);
+
+    useEffect(() => {
+        if (light) {
+            setIsDark(true);
+        }
+    }, []);
 
     return (
         <TouchableOpacity
@@ -17,7 +26,7 @@ const BackBtn = ({ style }: { style?: object }) => {
         >
             <Image
                 style={styles.bckBtn}
-                source={!isDark ? backBtn_lighht : backBtn}
+                source={isDark ? backBtn_lighht : backBtn}
             />
         </TouchableOpacity>
     );

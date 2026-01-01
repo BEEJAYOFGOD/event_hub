@@ -17,13 +17,14 @@
       "supportsTablet": true
     },
     "android": {
-        "adaptiveIcon": {
-            "foregroundImage": "./assets/images/adaptive-icon.png",
-            "backgroundColor": "#ffffff"
-        },
-        "edgeToEdgeEnabled": true,
-        "predictiveBackGestureEnabled": false,
-        "softwareKeyboardLayoutMode": "pan"
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/images/adaptive-icon.png",
+        "backgroundColor": "#ffffff"
+      },
+      "edgeToEdgeEnabled": true,
+      "predictiveBackGestureEnabled": false,
+      "softwareKeyboardLayoutMode": "pan",
+      "package": "com.beejayofgod.event_hub"
     },
     "web": {
       "bundler": "metro",
@@ -35,6 +36,12 @@
     ],
     "experiments": {
       "typedRoutes": true
+    },
+    "extra": {
+      "router": {},
+      "eas": {
+        "projectId": "09b3bf7e-2099-400a-a4a3-5cbac2b14d35"
+      }
     }
   }
 }

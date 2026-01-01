@@ -7,6 +7,7 @@ import CategoryFilter from "@/components/CategoryFiter";
 import CTA from "@/components/CTA";
 import EventCard from "@/components/EventCard";
 import { Text, View } from "@/components/Themed";
+import { useAppRouter } from "@/config/route";
 import { Event } from "@/types/Events";
 import { DrawerActions } from "@react-navigation/native";
 import { useNavigation } from "expo-router";
@@ -50,6 +51,7 @@ export default function TabOneScreen() {
         setIsLocationDropdownVisible(false);
     };
 
+    const router = useAppRouter();
     const DUMMY_EVENTS: Event[] = [
         {
             id: "1",
@@ -57,8 +59,10 @@ export default function TabOneScreen() {
                 uri: "https://images.unsplash.com/photo-1459749411175-04bf5292ceea?w=500",
             },
             title: "International Band Music Concert",
+            venue: "O2 Arena",
             location: "36 Guild Street London, UK",
             date: "10 JUNE 2025",
+            time: "7:30 PM",
             attendees: 20,
         },
         {
@@ -67,8 +71,10 @@ export default function TabOneScreen() {
                 uri: "https://images.unsplash.com/photo-1506157786151-b8491531f063?w=500",
             },
             title: "Jo Malone London's Mother's Day",
-            location: "Radius Gallery • Santa Cruz, CA",
+            venue: "Radius Gallery",
+            location: "Santa Cruz, CA",
             date: "20 JUNE 2025",
+            time: "2:00 PM",
             attendees: 35,
         },
         {
@@ -77,8 +83,10 @@ export default function TabOneScreen() {
                 uri: "https://images.unsplash.com/photo-1514525253161-7a46d19cd819?w=500",
             },
             title: "Summer Music Festival 2024",
-            location: "Central Park, New York, USA",
+            venue: "Central Park Main Stage",
+            location: "New York, USA",
             date: "15 JULY 2025",
+            time: "12:00 PM",
             attendees: 150,
         },
         {
@@ -87,8 +95,10 @@ export default function TabOneScreen() {
                 uri: "https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=500",
             },
             title: "Tech Conference 2024",
-            location: "Convention Center, San Francisco",
+            venue: "Moscone Convention Center",
+            location: "San Francisco, CA",
             date: "25 AUG 2025",
+            time: "9:00 AM",
             attendees: 500,
         },
         {
@@ -97,8 +107,10 @@ export default function TabOneScreen() {
                 uri: "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=500",
             },
             title: "Food & Wine Tasting Experience",
-            location: "Downtown Restaurant, Chicago",
+            venue: "The Gourmet Kitchen",
+            location: "Downtown Chicago, IL",
             date: "05 SEPT 2025",
+            time: "6:00 PM",
             attendees: 45,
         },
         {
@@ -107,12 +119,13 @@ export default function TabOneScreen() {
                 uri: "https://images.unsplash.com/photo-1501281668745-f7f57925c3b4?w=500",
             },
             title: "Art Gallery Exhibition",
-            location: "Modern Art Museum, Los Angeles",
+            venue: "LACMA - Los Angeles County Museum",
+            location: "Los Angeles, CA",
             date: "12 SEPT 2025",
+            time: "10:00 AM",
             attendees: 80,
         },
     ];
-
     const shuffled = (arr: Event[]): Event[] =>
         arr
             .map((v): [Event, number] => [v, Math.random()]) // <-- tuple typing
@@ -238,11 +251,7 @@ export default function TabOneScreen() {
                     {DUMMY_EVENTS.map((event) => (
                         <EventCard
                             key={event.id}
-                            image={event.image}
-                            title={event.title}
-                            location={event.location}
-                            date={event.date}
-                            attendees={event.attendees}
+                           {...event}
                         />
                     ))}
                 </ScrollView>
@@ -267,6 +276,10 @@ export default function TabOneScreen() {
                             flexDirection: "row",
                             alignItems: "center",
                             gap: 4,
+                        }}
+                        onPress={() => {
+                            router.toEvents();
+                            console.log("amen");
                         }}
                     >
                         <Text
