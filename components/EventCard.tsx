@@ -3,6 +3,7 @@ import oval_1 from "@/assets/images/oval_1.png";
 import oval_2 from "@/assets/images/oval_2.png";
 import oval_3 from "@/assets/images/oval_3.png";
 import { useAppRouter } from "@/config/route";
+import { shadow } from "@/helper/shadow";
 import { Event } from "@/types/Events";
 import { useState } from "react";
 import {
@@ -106,11 +107,7 @@ const styles = StyleSheet.create({
         backgroundColor: "#FFFFFF",
         borderRadius: 16,
         overflow: "hidden",
-        shadowColor: "#000",
-        shadowOffset: { width: 0, height: 2 },
-        shadowOpacity: 0.1,
-        shadowRadius: 5,
-        elevation: 2,
+        ...shadow(2),
         marginBottom: 16,
         width: 250,
     },

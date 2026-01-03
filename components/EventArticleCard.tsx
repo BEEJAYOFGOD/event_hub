@@ -1,12 +1,19 @@
+import map_pin from "@/assets/icons/map-pin.png";
+import { shadow } from "@/helper/shadow";
 import { Event } from "@/types/Events";
 import { Image, StyleSheet } from "react-native";
 import { Text, View } from "./Themed";
-import mapPin from "@/assets/icons/map-pin.png";
 
 interface EventCardProps
-    extends Pick<Event, "image" | "title" | "date" | "time"> {}
+    extends Pick<Event, "image" | "title" | "date" | "time" | "location"> {}
 
-const EventArticleCard = ({ image, title, date, time }: EventCardProps) => {
+const EventArticleCard = ({
+    image,
+    title,
+    date,
+    time,
+    location,
+}: EventCardProps) => {
     // Format the date to get the day name
     const formatDate = (dateString: string) => {
         // Parse the date string (e.g., "10 JUNE 2025")
@@ -50,21 +57,31 @@ const EventArticleCard = ({ image, title, date, time }: EventCardProps) => {
         return {
             dayName,
             dayWithOrdinal: getOrdinal(day),
+            day,
             monthName: parts[1],
         };
     };
 
-    const { dayName, dayWithOrdinal, monthName } = formatDate(date);
+    const { dayName, monthName, day } = formatDate(date);
 
     return (
         <View style={styles.container}>
             <Image source={image} style={styles.image} resizeMode="cover" />
 
             <View style={styles.textContainer}>
-                <Text style={styles.dateText}>
-                    {dayWithOrdinal} {monthName}- {dayName}- {time}
-                </Text>
-                <Text style={styles.titleText}>{title}</Text>
+                <View style={styles.topView}>
+                    <Text style={styles.dateText}>
+                        {dayName}, {monthName} {day} • {time}
+                    </Text>
+                    <Text weight="medium" style={styles.titleText}>
+                        {title}
+                    </Text>
+                </View>
+
+                <View style={styles.bottomView}>
+                    <Image source={map_pin} style={styles.locationIcon} />
+                    <Text style={styles.locationText}>{location}</Text>
+                </View>
             </View>
         </View>
     );
@@ -80,12 +97,7 @@ const styles = StyleSheet.create({
         borderRadius: 16,
         padding: 12,
         alignItems: "center",
-        shadowColor: "#000",
-        shadowOffset: { width: 0, height: 2 },
-        shadowOpacity: 0.1,
-        shadowRadius: 4,
-        elevation: 2,
-        marginBottom: 12,
+        ...shadow(2),
     },
     image: {
         width: 80,
@@ -96,17 +108,37 @@ const styles = StyleSheet.create({
     textContainer: {
         flex: 1,
         backgroundColor: "transparent",
+        flexDirection: "column",
+        gap: 2,
+        justifyContent: "space-between",
+        minHeight: 80,
+        alignContent: "space-between",
     },
     dateText: {
         fontSize: 13,
         fontFamily: "AirbnbCereal-Book",
         color: "#5669FF",
-        marginBottom: 8,
     },
     titleText: {
-        fontSize: 15,
-        fontFamily: "AirbnbCereal-Medium",
-        color: "#120D26",
+        fontSize: 20,
         lineHeight: 22,
+    },
+    locationIcon: {
+        width: 20,
+        height: 20,
+        objectFit: "contain",
+    },
+    topView: {
+        flexDirection: "column",
+        gap: 4,
+    },
+    bottomView: {
+        flexDirection: "row",
+        alignItems: "center",
+        gap: 2,
+    },
+    locationText: {
+        fontSize: 14,
+        color: "#747688",
     },
 });

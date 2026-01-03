@@ -126,7 +126,7 @@ const AllEvents = () => {
 const styles = StyleSheet.create({
     safeArea: {
         flex: 1,
-        // backgroundColor: "#fff",
+        backgroundColor: "#f7f7f7ff",
     },
     header: {
         flexDirection: "row",
@@ -156,7 +156,7 @@ const styles = StyleSheet.create({
         paddingHorizontal: 20,
         paddingTop: 8,
         paddingBottom: 20,
-        gap: 2,
+        gap: 12,
     },
 });
 
